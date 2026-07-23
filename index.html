@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Systems & Solutions</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Theme Control -->
+    <div class="theme-switch-wrapper">
+        <span class="theme-label">Dark</span>
+        <label class="theme-switch">
+            <input type="checkbox" id="theme-toggle">
+            <span class="slider round"></span>
+        </label>
+        <span class="theme-label">Light</span>
+    </div>
+
+    <!-- Background Layer 1: Sudoku -->
+    <div id="sudoku-container"></div>
+
+    <!-- Background Layer 2: Dynamic True 3D Side Objects -->
+    <div class="polygon-wrapper polygon-left">
+        <div id="poly-left" class="poly-3d-object">
+            <!-- JS will inject faces here -->
+        </div>
+    </div>
+    <div class="polygon-wrapper polygon-right">
+        <div id="poly-right" class="poly-3d-object">
+            <!-- JS will inject faces here -->
+        </div>
+    </div>
+
+    <!-- Content Layer (Wider Center Column) -->
+    <main class="content-wrapper">
+        <section id="hero">
+            <h1>Engineering precise solutions.</h1>
+            <p>I analyze complex infrastructure and electrical networks to build resilient, optimized systems.</p>
+        </section>
+
+        <section id="about">
+            <h2>01. The Methodology</h2>
+            <p>Just like a Sudoku puzzle, complex engineering problems require logical deduction and structured mapping. My expertise lies in evaluating variables—from AC circuit loads to transit route allocations—and systematically arriving at the most efficient solution.</p>
+        </section>
+
+        <section id="projects">
+            <h2>02. Technical Projects</h2>
+            
+            <div class="project-card">
+                <h3>AC Circuit Load Optimizer</h3>
+                <p>Developed an analytical model to calculate voltage drops across networks with specific resistor and inductor loads, optimizing overall circuit efficiency using advanced trigonometric phase angle mapping.</p>
+            </div>
+
+            <div class="project-card">
+                <h3>Transit Allocation Monitor</h3>
+                <p>Designed a tracking interface to monitor regional infrastructure developments, specifically focusing on passenger train schedule allocations and route feasibility between Salem and Coimbatore.</p>
+            </div>
+
+            <div class="project-card">
+                <h3>Automated Diagnostic Node</h3>
+                <p>Built a robust scripting tool that systematically tests and reports on hardware node failures, significantly reducing manual troubleshooting time.</p>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2>03. Initialize Contact</h2>
+            <p>Open for technical collaborations and roles in systems engineering.</p>
+            <a href="mailto:your@email.com" class="btn">Connect</a>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+/* CSS Variables for Theming */
+:root {
+    --bg-color: #0a0a0a;
+    --text-color: #f4f4f5;
+    --glass-bg: rgba(15, 15, 15, 0.85);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --accent: #3b82f6;
+    
+    /* Sudoku Specific */
+    --grid-line: #262626;
+    --grid-thick: #404040;
+    --sudoku-static: #52525b;
+    --sudoku-solved: #3b82f6;
+    --poly-face-bg: rgba(59, 130, 246, 0.15);
+    --poly-face-border: rgba(59, 130, 246, 0.4);
+}
+
+/* Light Theme Overrides */
+body.light-theme {
+    --bg-color: #f8fafc;
+    --text-color: #0f172a;
+    --glass-bg: rgba(255, 255, 255, 0.85);
+    --glass-border: rgba(0, 0, 0, 0.1);
+    --accent: #2563eb;
+    
+    --grid-line: #cbd5e1;
+    --grid-thick: #94a3b8;
+    --sudoku-static: #94a3b8;
+    --sudoku-solved: #2563eb;
+    --poly-face-bg: rgba(37, 99, 235, 0.1);
+    --poly-face-border: rgba(37, 99, 235, 0.3);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.4s, color 0.4s;
+    overflow-x: hidden;
+}
+h1, h2, h3 { font-family: 'JetBrains Mono', monospace; }
+
+/* Theme Toggle */
+.theme-switch-wrapper {
+    position: fixed; top: 20px; right: 30px; z-index: 1000;
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;
+}
+.theme-switch { position: relative; display: inline-block; width: 50px; height: 24px; }
+.theme-switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #333; transition: .4s; border-radius: 24px; }
+.slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+input:checked + .slider { background-color: #cbd5e1; }
+input:checked + .slider:before { transform: translateX(26px); background-color: #0a0a0a; }
+
+/* Sudoku Background */
+#sudoku-container {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 100vw; height: 100vh;
+    display: grid; grid-template-columns: repeat(9, 1fr); grid-template-rows: repeat(9, 1fr);
+    z-index: -2; opacity: 0.25;
+}
+.sudoku-cell {
+    border: 1px solid var(--grid-line);
+    display: flex; justify-content: center; align-items: center;
+    font-family: 'JetBrains Mono', monospace; font-size: 3vh;
+    color: var(--sudoku-static); transition: color 0.3s;
+}
+.sudoku-cell:nth-child(3n) { border-right: 3px solid var(--grid-thick); }
+.sudoku-cell:nth-child(n+19):nth-child(-n+27),
+.sudoku-cell:nth-child(n+46):nth-child(-n+54) { border-bottom: 3px solid var(--grid-thick); }
+
+.solved-num { color: var(--sudoku-solved); font-weight: 700; opacity: 0; transform: scale(0.5); transition: all 0.4s ease; }
+.solved-num.visible { opacity: 1; transform: scale(1); }
+
+/* True 3D Side Object Layout */
+.polygon-wrapper {
+    position: fixed; top: 0; width: 12vw; height: 100vh;
+    display: flex; justify-content: center; align-items: center;
+    z-index: -1; perspective: 1200px;
+    pointer-events: none;
+}
+.polygon-left { left: 2vw; }
+.polygon-right { right: 2vw; }
+
+/* 3D Polyhedron structure */
+.poly-3d-object {
+    width: 100px; height: 100px;
+    position: relative;
+    transform-style: preserve-3d;
+}
+.face {
+    position: absolute; width: 100px; height: 100px;
+    background: var(--poly-face-bg);
+    border: 1px solid var(--poly-face-border);
+    transition: background 0.4s, border-color 0.4s;
+    box-shadow: inset 0 0 15px rgba(59, 130, 246, 0.1);
+}
+
+/* Spacious Content Layer (Wide Center Column) */
+.content-wrapper {
+    position: relative; z-index: 10;
+    max-width: 950px; width: 62vw; margin: 0 auto;
+    padding: 0 50px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(14px);
+    border-left: 1px solid var(--glass-border);
+    border-right: 1px solid var(--glass-border);
+    box-shadow: 0 0 40px rgba(0,0,0,0.6);
+}
+section { padding: 130px 0; min-height: 85vh; border-bottom: 1px solid var(--glass-border); }
+h1 { font-size: 3.2rem; margin-bottom: 20px; line-height: 1.2; }
+h2 { font-size: 2.1rem; margin-bottom: 30px; color: var(--accent); }
+p { font-size: 1.15rem; line-height: 1.8; color: inherit; opacity: 0.92; }
+
+.project-card {
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--glass-border);
+    padding: 35px; border-radius: 8px; margin-bottom: 25px;
+}
+body.light-theme .project-card { background: rgba(255, 255, 255, 0.6); }
+.project-card h3 { margin-bottom: 12px; font-size: 1.4rem; }
+
+.btn {
+    display: inline-block; padding: 12px 30px; margin-top: 20px;
+    background: var(--accent); color: white; text-decoration: none;
+    border-radius: 4px; font-weight: bold; transition: opacity 0.3s;
+}
+.btn:hover { opacity: 0.8; }
+
+@media (max-width: 1024px) {
+    .content-wrapper { width: 85vw; padding: 0 25px; }
+    .polygon-wrapper { display: none; }
+}
