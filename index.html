@@ -1,13 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio | Systems & Solutions</title>
+    <title>manialgo | Portfolio</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Requested Fonts: Atkinson Hyperlegible Mono & Overpass Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400;700&family=Overpass+Mono:wght@300;600;700&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
+    <!-- Splash Screen Sequence -->
+    <div id="splash-screen">
+        <div class="splash-content">
+            <video id="splash-video" src="ref/Logo-Animation.mp4" autoplay muted playsinline></video>
+            <img src="ref/portfolio-logo-dark.png" alt="Geometric Bird" id="splash-bird">
+        </div>
+    </div>
+
+    <!-- Simple Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <img src="ref/portfolio-logo-dark.png" alt="manialgo Logo" id="sidebar-logo-img">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#intro">01. Intro</a></li>
+                <li><a href="#competencies">02. Professional Competencies</a></li>
+                <li><a href="#experience">03. Experience</a></li>
+                <li><a href="#certification">04. Certification</a></li>
+                <li><a href="#projects">05. Projects</a></li>
+                <li><a href="#patents">06. Patents</a></li>
+                <li><a href="#paper-presentation">07. Paper Presentation</a></li>
+                <li><a href="#conference">08. Conference Attend</a></li>
+                <li><a href="#achievements">09. Key Achievements</a></li>
+                <li><a href="#academic">10. Academic</a></li>
+                <li><a href="#social-handles">11. Social-Handles</a></li>
+                <li><a href="#extra-curricular">12. Extra-Curricular Activities</a></li>
+            </ul>
+        </nav>
+    </aside>
 
     <!-- Theme Control -->
     <div class="theme-switch-wrapper">
@@ -36,42 +74,162 @@
 
     <!-- Content Layer (Wider Center Column) -->
     <main class="content-wrapper">
-        <section id="hero">
-            <h1>Engineering precise solutions.</h1>
-            <p>I analyze complex infrastructure and electrical networks to build resilient, optimized systems.</p>
+        <section id="intro">
+            <div class="logo-container">
+                <img src="ref/DP_Upload_Circle.jpeg" alt="manialgo DP" class="persona-dp" id="intro-dp">
+            </div>
+            <h1>manialgo</h1>
+            <h2 class="sub-line">Mathematics Algorithm</h2>
+            <p class="quote">"Mathematics is the language for the universe"</p>
         </section>
 
-        <section id="about">
-            <h2>01. The Methodology</h2>
-            <p>Just like a Sudoku puzzle, complex engineering problems require logical deduction and structured mapping. My expertise lies in evaluating variables—from AC circuit loads to transit route allocations—and systematically arriving at the most efficient solution.</p>
+        <section id="competencies">
+            <h2>02. Professional Competencies</h2>
+            <p>Evaluating variables and systemizing efficient engineering solutions.</p>
+        </section>
+
+        <section id="experience">
+            <h2>03. Experience</h2>
+            <p>Details on professional experience and roles.</p>
+        </section>
+
+        <section id="certification">
+            <h2>04. Certification</h2>
+            <p>Professional certifications and continuous learning.</p>
         </section>
 
         <section id="projects">
-            <h2>02. Technical Projects</h2>
-            
+            <h2>05. Projects</h2>
             <div class="project-card">
                 <h3>AC Circuit Load Optimizer</h3>
-                <p>Developed an analytical model to calculate voltage drops across networks with specific resistor and inductor loads, optimizing overall circuit efficiency using advanced trigonometric phase angle mapping.</p>
+                <p>Developed an analytical model to calculate voltage drops across networks with specific resistor and
+                    inductor loads, optimizing overall circuit efficiency using advanced trigonometric phase angle
+                    mapping.</p>
             </div>
-
             <div class="project-card">
                 <h3>Transit Allocation Monitor</h3>
-                <p>Designed a tracking interface to monitor regional infrastructure developments, specifically focusing on passenger train schedule allocations and route feasibility between Salem and Coimbatore.</p>
+                <p>Designed a tracking interface to monitor regional infrastructure developments, specifically focusing
+                    on passenger train schedule allocations and route feasibility between Salem and Coimbatore.</p>
             </div>
-
             <div class="project-card">
                 <h3>Automated Diagnostic Node</h3>
-                <p>Built a robust scripting tool that systematically tests and reports on hardware node failures, significantly reducing manual troubleshooting time.</p>
+                <p>Built a robust scripting tool that systematically tests and reports on hardware node failures,
+                    significantly reducing manual troubleshooting time.</p>
             </div>
         </section>
 
-        <section id="contact">
-            <h2>03. Initialize Contact</h2>
-            <p>Open for technical collaborations and roles in systems engineering.</p>
-            <a href="mailto:your@email.com" class="btn">Connect</a>
+        <section id="patents">
+            <h2>06. Patents</h2>
+            <p>Innovations and patented methodologies.</p>
+        </section>
+
+        <section id="paper-presentation">
+            <h2>07. Paper Presentation</h2>
+            <p>Research papers and technical presentations.</p>
+        </section>
+
+        <section id="conference">
+            <h2>08. Conference Attend</h2>
+            <p>Conferences attended and knowledge exchange.</p>
+        </section>
+
+        <section id="achievements">
+            <h2>09. Key Achievements</h2>
+            <p>Notable milestones and recognition.</p>
+        </section>
+
+        <section id="academic">
+            <h2>10. Academic</h2>
+            <p>Educational background and academic excellence.</p>
+        </section>
+
+        <section id="social-handles">
+            <h2>11. Social-Handles</h2>
+
+            <div class="search-section">
+                <input type="text" id="filter-input" placeholder="Filter handles (e.g., coding, social)..."
+                    autocomplete="off">
+            </div>
+
+            <div class="profiles-grid" id="links-container">
+                <!-- Tech & Coding -->
+                <a href="https://github.com/manialgo" target="_blank" class="profile-card"
+                    data-search="github tech coding manialgo">
+                    <h3>GitHub</h3>
+                    <p class="handle">manialgo</p>
+                </a>
+                <a href="https://leetcode.com/manialgo" target="_blank" class="profile-card"
+                    data-search="leetcode tech coding math manialgo">
+                    <h3>LeetCode</h3>
+                    <p class="handle">manialgo</p>
+                </a>
+                <a href="https://www.hackerrank.com/manialgo" target="_blank" class="profile-card"
+                    data-search="hackerrank tech coding manialgo">
+                    <h3>HackerRank</h3>
+                    <p class="handle">manialgo</p>
+                </a>
+                <a href="https://auth.geeksforgeeks.org/user/mani_algo" target="_blank" class="profile-card"
+                    data-search="geeksforgeeks gfg tech coding mani_algo">
+                    <h3>GeeksforGeeks</h3>
+                    <p class="handle">mani_algo</p>
+                </a>
+                <a href="#" target="_blank" class="profile-card" data-search="w3 w3schools tech coding manialgo">
+                    <h3>W3</h3>
+                    <p class="handle">manialgo</p>
+                </a>
+                <a href="#" target="_blank" class="profile-card" data-search="unstop professional competition manialgo">
+                    <h3>Unstop</h3>
+                    <p class="handle">manialgo</p>
+                </a>
+
+                <!-- Professional & Enterprise -->
+                <a href="https://linkedin.com/in/manialgo" target="_blank" class="profile-card"
+                    data-search="linkedin professional manialgo">
+                    <h3>LinkedIn</h3>
+                    <p class="handle">manialgo</p>
+                </a>
+                <a href="#" target="_blank" class="profile-card"
+                    data-search="infosys springboard corporate learning ((manialgo))">
+                    <h3>Infosys-Spring-board</h3>
+                    <p class="handle">((manialgo))</p>
+                </a>
+                <a href="#" target="_blank" class="profile-card" data-search="tcs ion corporate learning manialgo">
+                    <h3>tcsIon</h3>
+                    <p class="handle">manialgo</p>
+                </a>
+
+                <!-- Creators & Social -->
+                <a href="#" target="_blank" class="profile-card" data-search="youtube math channel the_mathematics">
+                    <h3>YouTube Channel</h3>
+                    <p class="handle">the_mathematics</p>
+                </a>
+                <a href="#" target="_blank" class="profile-card" data-search="youtube frame channel maniframe">
+                    <h3>YouTube Channel</h3>
+                    <p class="handle">maniFrame</p>
+                </a>
+                <a href="#" target="_blank" class="profile-card" data-search="instagram social mani_algo">
+                    <h3>Instagram</h3>
+                    <p class="handle">mani_algo</p>
+                </a>
+                <a href="#" target="_blank" class="profile-card" data-search="whatsapp social mani_algo">
+                    <h3>WhatsApp</h3>
+                    <p class="handle">mani_algo</p>
+                </a>
+                <a href="mailto:manimmaths@gmail.com" target="_blank" class="profile-card"
+                    data-search="email mail contact manimmaths">
+                    <h3>Email</h3>
+                    <p class="handle">manimmaths</p>
+                </a>
+            </div>
+        </section>
+
+        <section id="extra-curricular">
+            <h2>12. Extra-Curricular Activities</h2>
+            <p>Beyond engineering and mathematics.</p>
         </section>
     </main>
 
     <script src="script.js"></script>
 </body>
+
 </html>
