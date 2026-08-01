@@ -13,6 +13,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400;700&family=Overpass+Mono:wght@300;600;700&display=swap"
         rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -31,18 +32,18 @@
         </div>
         <nav>
             <ul>
-                <li><a href="#intro">01. Intro</a></li>
-                <li><a href="#competencies">02. Professional Competencies</a></li>
-                <li><a href="#experience">03. Experience</a></li>
-                <li><a href="#certification">04. Certification</a></li>
-                <li><a href="#projects">05. Projects</a></li>
-                <li><a href="#patents">06. Patents</a></li>
-                <li><a href="#paper-presentation">07. Paper Presentation</a></li>
-                <li><a href="#conference">08. Conference Attend</a></li>
-                <li><a href="#achievements">09. Key Achievements</a></li>
-                <li><a href="#academic">10. Academic</a></li>
-                <li><a href="#social-handles">11. Social-Handles</a></li>
-                <li><a href="#extra-curricular">12. Extra-Curricular Activities</a></li>
+                <li><a href="#intro"><span class="nav-text">Introduction</span></a></li>
+                <li><a href="#competencies"><span class="nav-text">Professional Competencies</span></a></li>
+                <li><a href="#experience"><span class="nav-text">Experience</span></a></li>
+                <li><a href="#certification"><span class="nav-text">Certification</span></a></li>
+                <li><a href="#projects"><span class="nav-text">Projects</span></a></li>
+                <li><a href="#patents"><span class="nav-text">Patents</span></a></li>
+                <li><a href="#paper-presentation"><span class="nav-text">Paper Presentation</span></a></li>
+                <li><a href="#conference"><span class="nav-text">Conference Attend</span></a></li>
+                <li><a href="#achievements"><span class="nav-text">Key Achievements</span></a></li>
+                <li><a href="#academic"><span class="nav-text">Academic</span></a></li>
+                <li><a href="#social-handles"><span class="nav-text">Social-Handles</span></a></li>
+                <li><a href="#extra-curricular"><span class="nav-text">Extra-Curricular Activities</span></a></li>
             </ul>
         </nav>
     </aside>
@@ -74,77 +75,256 @@
 
     <!-- Content Layer (Wider Center Column) -->
     <main class="content-wrapper">
-        <section id="intro">
-            <div class="logo-container">
-                <img src="ref/DP_Upload_Circle.jpeg" alt="manialgo DP" class="persona-dp" id="intro-dp">
+        <section id="intro" class="profile-section">
+            <div class="profile-card-main" id="intro-profile-card">
+                <div class="profile-card-inner">
+                    <div class="profile-image-container">
+                        <img src="ref/Profile-Image-Main.jpg" alt="manialgo DP" class="persona-dp" id="intro-dp">
+                    </div>
+                    <div class="profile-info">
+                        <h1 class="profile-name">manialgo</h1>
+                        <h2 class="profile-role">Mathematics Algorithm</h2>
+                        <p class="profile-quote">"Mathematics is the language for the universe"</p>
+
+                        <div class="profile-socials">
+                            <a href="https://github.com/manialgo" target="_blank" class="social-icon">GitHub</a>
+                            <a href="https://linkedin.com/in/manialgo" target="_blank" class="social-icon">LinkedIn</a>
+                            <a href="mailto:manimmaths@gmail.com" class="social-icon">Email</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <h1>manialgo</h1>
-            <h2 class="sub-line">Mathematics Algorithm</h2>
-            <p class="quote">"Mathematics is the language for the universe"</p>
         </section>
 
         <section id="competencies">
-            <h2>02. Professional Competencies</h2>
-            <p>Evaluating variables and systemizing efficient engineering solutions.</p>
+            <div class="competencies-container">
+                <div class="comp-sticky">
+                    <h2>Professional Competencies</h2>
+                    <p class="comp-intro">Evaluating variables and systemizing efficient engineering solutions.</p>
+                    <img src="ref/Profile-Image-Main.jpg" alt="Profile Image" class="comp-profile-pic">
+                    <div class="comp-chart-wrapper">
+                        <canvas id="competenciesChart"></canvas>
+                    </div>
+                </div>
+                <div class="comp-right">
+
+                    <div class="scroll-stack">
+                        <div class="stack-card" style="--stick-top: 80px;">
+                            <h3>Programming Languages</h3>
+                            <ul class="comp-list">
+                                <li><strong>C</strong> - Advanced embedded logic & hardware interfacing.</li>
+                                <li><strong>Java</strong> - Object-oriented application development & computer vision
+                                    wrappers.</li>
+                            </ul>
+                        </div>
+                        <div class="stack-card" style="--stick-top: 100px;">
+                            <h3>Tools & Platforms</h3>
+                            <ul class="comp-list">
+                                <li><strong>VS Code</strong> - Primary IDE for full-stack development.</li>
+                                <li><strong>Git / GitHub</strong> - Version control & open-source collaboration.</li>
+                                <li><strong>Microsoft Office</strong> - PowerPoint, Word, Excel for data documentation.
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="stack-card" style="--stick-top: 120px;">
+                            <h3>Soft Skills</h3>
+                            <ul class="comp-list">
+                                <li>Critical Thinking & Conflict Resolution</li>
+                                <li>Adaptability & Time Management</li>
+                                <li>Team Leadership & Collaboration</li>
+                            </ul>
+                        </div>
+                        <div class="stack-card" style="--stick-top: 140px;">
+                            <h3>Languages</h3>
+                            <ul class="comp-list">
+                                <li><strong>Tamil</strong> - Native Proficiency</li>
+                                <li><strong>English</strong> - Professional Working Proficiency</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <section id="experience">
-            <h2>03. Experience</h2>
-            <p>Details on professional experience and roles.</p>
+            <h2>Experience</h2>
+            <div class="card-swap-container" id="experience-card-swap">
+
+                <div class="swap-card" data-index="0">
+                    <div class="card-header">
+                        <h3>Qaroo Learnings India Pvt. Ltd.</h3>
+                        <span class="card-date">Jan 2026 &bull; Coimbatore, Tamil Nadu</span>
+                    </div>
+                    <h4 class="card-role">Intern - Web development | HTML, CSS, JS</h4>
+                    <ul class="card-details">
+                        <li>Designed and developed responsive, user-friendly web interfaces using HTML, CSS, and
+                            JavaScript, including the successful deployment of a logic-driven calculator application.
+                        </li>
+                        <li>Optimized front-end codebase to ensure complete cross-browser compatibility, directly
+                            contributing to faster page load times and enhanced overall website performance.</li>
+                    </ul>
+                    <div class="exp-buttons">
+                        <a href="ref/certificates/internship/qaroo.jpg" class="social-icon"
+                            target="_blank">Certificate</a>
+                        <a href="#" class="social-icon">GitHub Repo</a>
+                        <a href="https://www.linkedin.com/posts/manialgo_html-css-js-activity-7423550445333405696-7HQo?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEQSCN8BL0CofnquxMlUTa0-RkTmh4lp7a4"
+                            class="social-icon">LinkedIn Update</a>
+                    </div>
+                </div>
+
+                <div class="swap-card" data-index="1">
+                    <div class="card-header">
+                        <h3>CAZ Brain Pvt. Ltd</h3>
+                        <span class="card-date">Jul 2025 &bull; Coimbatore, Tamil Nadu</span>
+                    </div>
+                    <h4 class="card-role">Intern - IoT & Robotics | Communication Protocols</h4>
+                    <ul class="card-details">
+                        <li>Integrated various IoT communication protocols (including MQTT, HTTP, and Bluetooth) to
+                            architect seamless, real-time data exchange between devices.</li>
+                        <li>Developed and tested IoT-enabled hardware prototypes, analyzing complex system problems to
+                            design logical solutions that significantly improved overall system reliability.</li>
+                    </ul>
+                    <div class="exp-buttons">
+                        <a href="ref/certificates/internship/caz-brain.jpg" class="social-icon"
+                            target="_blank">Certificate</a>
+                        <a href="https://www.linkedin.com/posts/manialgo_caz-brain-internship-offer-letter-activity-7359764566068637697-qkqm?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEQSCN8BL0CofnquxMlUTa0-RkTmh4lp7a4"
+                            class="social-icon">LinkedIn Update</a>
+                    </div>
+                </div>
+
+                <div class="swap-card" data-index="2">
+                    <div class="card-header">
+                        <h3>Embuzz Technologies Pvt. Ltd</h3>
+                        <span class="card-date">Jun 2025 &bull; Coimbatore, Tamil Nadu</span>
+                    </div>
+                    <h4 class="card-role">Intern - Embedded C Programming for ATMEGA GPIOs</h4>
+                    <ul class="card-details">
+                        <li>Programmed ATMEGA microcontrollers utilizing Embedded C, precisely configuring GPIOs to
+                            interface with various sensors and actuators for robust hardware-software integration.</li>
+                        <li>Executed practical embedded systems projects by applying core electronics and circuit
+                            fundamentals, streamlining industry-standard development workflows.</li>
+                    </ul>
+                    <div class="exp-buttons">
+                        <a href="ref/certificates/internship/embuzz.jpeg" class="social-icon"
+                            target="_blank">Certificate</a>
+                        <a href="https://www.linkedin.com/posts/manialgo_summary-of-15-day-internship-completed-activity-7343852646203650048-sEF1?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAEQSCN8BL0CofnquxMlUTa0-RkTmh4lp7a4"
+                            class="social-icon">LinkedIn Update</a>
+                    </div>
+                </div>
+
+            </div>
         </section>
 
         <section id="certification">
-            <h2>04. Certification</h2>
+            <h2>Certification</h2>
             <p>Professional certifications and continuous learning.</p>
         </section>
 
         <section id="projects">
-            <h2>05. Projects</h2>
-            <div class="project-card">
-                <h3>AC Circuit Load Optimizer</h3>
-                <p>Developed an analytical model to calculate voltage drops across networks with specific resistor and
-                    inductor loads, optimizing overall circuit efficiency using advanced trigonometric phase angle
-                    mapping.</p>
-            </div>
-            <div class="project-card">
-                <h3>Transit Allocation Monitor</h3>
-                <p>Designed a tracking interface to monitor regional infrastructure developments, specifically focusing
-                    on passenger train schedule allocations and route feasibility between Salem and Coimbatore.</p>
-            </div>
-            <div class="project-card">
-                <h3>Automated Diagnostic Node</h3>
-                <p>Built a robust scripting tool that systematically tests and reports on hardware node failures,
-                    significantly reducing manual troubleshooting time.</p>
+            <h2>Projects</h2>
+            <div class="card-swap-container" id="projects-card-swap">
+
+                <div class="swap-card" data-index="0">
+                    <div class="card-header">
+                        <h3>Ergo-Track: Real-Time Posture Monitor</h3>
+                        <span class="card-date">Java, JavaCV, OpenCV DNN</span>
+                    </div>
+                    <h4 class="card-role">Desktop Computer Vision Application</h4>
+                    <ul class="card-details">
+                        <li>Developed a computer vision application that captures frame-by-frame body posture to monitor
+                            ergonomic stability and detect unsafe bending thresholds.</li>
+                        <li>Engineered to prevent workplace accidents in factories by identifying posture imbalances and
+                            dizzy moments during long-hour manual labor shifts.</li>
+                    </ul>
+                    <div class="exp-buttons">
+                        <a href="https://github.com/manialgo/ergotrack-app" target="_blank" class="social-icon">GitHub
+                            Repo</a>
+                    </div>
+                </div>
+
+                <div class="swap-card" data-index="1">
+                    <div class="card-header">
+                        <h3>MATH.LAB</h3>
+                        <span class="card-date">AI-Code Generation</span>
+                    </div>
+                    <h4 class="card-role">Mathematics Learning & Code Platform</h4>
+                    <ul class="card-details">
+                        <li>Architected a comprehensive web-based platform featuring interactive modules for cubic
+                            equations, linear equations, differentiation, and integration.</li>
+                        <li>Integrated custom JavaScript logic and animated UI components to visually demonstrate and
+                            simplify complex mathematical computations for users.</li>
+                    </ul>
+                    <div class="exp-buttons">
+                        <a href="https://github.com/manialgo/math-lab" target="_blank" class="social-icon">GitHub
+                            Repo</a>
+                    </div>
+                </div>
+
+                <div class="swap-card" data-index="2">
+                    <div class="card-header">
+                        <h3>Dynamic Weighing System</h3>
+                        <span class="card-date">Embedded Systems & Hardware</span>
+                    </div>
+                    <h4 class="card-role">Automated Real-Time Hardware System</h4>
+                    <ul class="card-details">
+                        <li>Designed a real-time conveyor belt-based system to dynamically measure the weight of objects
+                            in motion without stopping the flow.</li>
+                        <li>Achieved high precision of ±0.005 g/kg using custom-fabricated mechanical structures, load
+                            cells, Arduino PWM motor control, and digital filtering.</li>
+                    </ul>
+                    <div class="exp-buttons">
+                        <a href="https://github.com/manialgo/Dynamic-Weighing-System" target="_blank"
+                            class="social-icon">GitHub Repo</a>
+                    </div>
+                </div>
+
+                <div class="swap-card" data-index="3">
+                    <div class="card-header">
+                        <h3>Water Tank Monitor System</h3>
+                        <span class="card-date">Arduino, Sensors</span>
+                    </div>
+                    <h4 class="card-role">Mini Project - Embedded Logic</h4>
+                    <ul class="card-details">
+                        <li>Engineered an automated water level monitoring system using Arduino microcontrollers as a
+                            practical learning initiative.</li>
+                        <li>Designed a custom threshold-based LED alert mechanism capable of successfully preventing
+                            tank overflow within a 2-meter operational range.</li>
+                    </ul>
+                    <div class="exp-buttons">
+                        <a href="#" class="social-icon">View Details</a>
+                    </div>
+                </div>
+
             </div>
         </section>
 
         <section id="patents">
-            <h2>06. Patents</h2>
+            <h2>Patents</h2>
             <p>Innovations and patented methodologies.</p>
         </section>
 
         <section id="paper-presentation">
-            <h2>07. Paper Presentation</h2>
+            <h2>Paper Presentation</h2>
             <p>Research papers and technical presentations.</p>
         </section>
 
         <section id="conference">
-            <h2>08. Conference Attend</h2>
+            <h2>Conference Attend</h2>
             <p>Conferences attended and knowledge exchange.</p>
         </section>
 
         <section id="achievements">
-            <h2>09. Key Achievements</h2>
+            <h2>Key Achievements</h2>
             <p>Notable milestones and recognition.</p>
         </section>
 
         <section id="academic">
-            <h2>10. Academic</h2>
+            <h2>Academic</h2>
             <p>Educational background and academic excellence.</p>
         </section>
 
         <section id="social-handles">
-            <h2>11. Social-Handles</h2>
+            <h2>Social-Handles</h2>
 
             <div class="search-section">
                 <input type="text" id="filter-input" placeholder="Filter handles (e.g., coding, social)..."
@@ -168,17 +348,9 @@
                     <h3>HackerRank</h3>
                     <p class="handle">manialgo</p>
                 </a>
-                <a href="https://auth.geeksforgeeks.org/user/mani_algo" target="_blank" class="profile-card"
-                    data-search="geeksforgeeks gfg tech coding mani_algo">
-                    <h3>GeeksforGeeks</h3>
-                    <p class="handle">mani_algo</p>
-                </a>
-                <a href="#" target="_blank" class="profile-card" data-search="w3 w3schools tech coding manialgo">
+                <a href="https://www.w3profile.com/manialgo" target="_blank" class="profile-card"
+                    data-search="w3 w3schools tech coding manialgo">
                     <h3>W3</h3>
-                    <p class="handle">manialgo</p>
-                </a>
-                <a href="#" target="_blank" class="profile-card" data-search="unstop professional competition manialgo">
-                    <h3>Unstop</h3>
                     <p class="handle">manialgo</p>
                 </a>
 
@@ -188,30 +360,25 @@
                     <h3>LinkedIn</h3>
                     <p class="handle">manialgo</p>
                 </a>
-                <a href="#" target="_blank" class="profile-card"
-                    data-search="infosys springboard corporate learning ((manialgo))">
-                    <h3>Infosys-Spring-board</h3>
-                    <p class="handle">((manialgo))</p>
-                </a>
-                <a href="#" target="_blank" class="profile-card" data-search="tcs ion corporate learning manialgo">
-                    <h3>tcsIon</h3>
-                    <p class="handle">manialgo</p>
-                </a>
 
                 <!-- Creators & Social -->
-                <a href="#" target="_blank" class="profile-card" data-search="youtube math channel the_mathematics">
+                <a href="https://www.youtube.com/@the__mathematics" target="_blank" class="profile-card"
+                    data-search="youtube math channel the_mathematics">
                     <h3>YouTube Channel</h3>
                     <p class="handle">the_mathematics</p>
                 </a>
-                <a href="#" target="_blank" class="profile-card" data-search="youtube frame channel maniframe">
+                <a href="https://www.youtube.com/@maniframe" target="_blank" class="profile-card"
+                    data-search="youtube frame channel maniframe">
                     <h3>YouTube Channel</h3>
                     <p class="handle">maniFrame</p>
                 </a>
-                <a href="#" target="_blank" class="profile-card" data-search="instagram social mani_algo">
+                <a href="https://www.instagram.com/mani_algo" target="_blank" class="profile-card"
+                    data-search="instagram social mani_algo">
                     <h3>Instagram</h3>
                     <p class="handle">mani_algo</p>
                 </a>
-                <a href="#" target="_blank" class="profile-card" data-search="whatsapp social mani_algo">
+                <a href="https://wa.me/qr/RXGXYMZPDWRKK1" target="_blank" class="profile-card"
+                    data-search="whatsapp social mani_algo">
                     <h3>WhatsApp</h3>
                     <p class="handle">mani_algo</p>
                 </a>
@@ -224,7 +391,7 @@
         </section>
 
         <section id="extra-curricular">
-            <h2>12. Extra-Curricular Activities</h2>
+            <h2>Extra-Curricular Activities</h2>
             <p>Beyond engineering and mathematics.</p>
         </section>
     </main>

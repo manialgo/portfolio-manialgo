@@ -181,8 +181,10 @@ window.addEventListener('load', () => {
             // Move the splash bird to the sidebar position by appending the delta to its existing translate(-50%, -50%)
             splashBird.style.transform = `translate(calc(-50% + ${deltaX}px), calc(-50% + ${deltaY}px)) scale(${scale})`;
             
-            // Fade in DP
+            // Fade in DP and profile card
             introDp.classList.add('visible');
+            const introCard = document.getElementById('intro-profile-card');
+            if (introCard) introCard.classList.add('visible');
 
             // After migration finishes (1.5s transition), hide splash and show actual sidebar logo
             setTimeout(() => {
@@ -200,3 +202,132 @@ window.addEventListener('load', () => {
         introDp.classList.add('visible');
     });
 });
+
+// --- 7. CARD SWAP LOGIC (FOR EXPERIENCE & PROJECTS) ---
+const swapContainers = document.querySelectorAll('.card-swap-container');
+
+swapContainers.forEach(container => {
+    const swapCards = Array.from(container.querySelectorAll('.swap-card'));
+    
+    swapCards.forEach((card, index) => {
+        if (index === 0) card.classList.add('front');
+        else if (index === 1) card.classList.add('middle');
+        else card.classList.add('back');
+        
+        card.addEventListener('click', () => {
+            if (card.classList.contains('front')) {
+                cycleDeck(container, swapCards);
+            } else {
+                bringToFront(container, card);
+            }
+        });
+    });
+});
+
+function bringToFront(container, clickedCard) {
+    const frontCard = container.querySelector('.swap-card.front');
+    if (!frontCard) return;
+
+    if (clickedCard.classList.contains('middle')) {
+        frontCard.classList.replace('front', 'middle');
+        clickedCard.classList.replace('middle', 'front');
+    } else if (clickedCard.classList.contains('back')) {
+        frontCard.classList.replace('front', 'back');
+        clickedCard.classList.replace('back', 'front');
+    }
+}
+
+function cycleDeck(container, cards) {
+    let frontIdx = cards.findIndex(c => c.classList.contains('front'));
+    
+    cards.forEach(c => {
+        c.classList.remove('front', 'middle', 'back');
+    });
+    
+    const nextFrontIdx = (frontIdx + 1) % cards.length;
+    const nextMiddleIdx = (frontIdx + 2) % cards.length;
+    
+    cards.forEach((c, idx) => {
+        if (idx === nextFrontIdx) {
+            c.classList.add('front');
+        } else if (idx === nextMiddleIdx) {
+            c.classList.add('middle');
+        } else {
+            c.classList.add('back');
+        }
+    });
+}
+
+// --- 8. COMPETENCIES RADAR CHART ---
+document.addEventListener('DOMContentLoaded', () => {
+    const ctx = document.getElementById('competenciesChart');
+    if (ctx) {
+        const isLight = document.body.classList.contains('light-theme');
+        const gridColor = isLight ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.1)';
+        const pointLabelColor = isLight ? '#333' : '#eee';
+        
+        const competenciesChart = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: ['C Programming', 'Java', 'VS Code', 'Git/GitHub', 'Problem Solving', 'Leadership'],
+                datasets: [{
+                    label: 'Proficiency',
+                    data: [90, 85, 95, 80, 95, 85],
+                    backgroundColor: 'rgba(212, 175, 55, 0.2)',
+                    borderColor: 'rgba(212, 175, 55, 1)',
+                    pointBackgroundColor: 'rgba(212, 175, 55, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(212, 175, 55, 1)',
+                    borderWidth: 2,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: {
+                    r: {
+                        angleLines: { color: gridColor },
+                        grid: { color: gridColor },
+                        pointLabels: {
+                            color: pointLabelColor,
+                            font: {
+                                family: "'Atkinson Hyperlegible Mono', monospace",
+                                size: 11
+                            }
+                        },
+                        ticks: {
+                            display: false,
+                            min: 0,
+                            max: 100
+                        }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(0,0,0,0.8)',
+                        titleFont: { family: "'Overpass Mono', monospace" },
+                        bodyFont: { family: "'Overpass Mono', monospace" }
+                    }
+                }
+            }
+        });
+
+        // Update colors when theme changes
+        const themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('change', () => {
+                // Read the state after the original event listener fires (assuming this fires after or just check the DOM)
+                setTimeout(() => {
+                    const light = document.body.classList.contains('light-theme');
+                    competenciesChart.options.scales.r.angleLines.color = light ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.1)';
+                    competenciesChart.options.scales.r.grid.color = light ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.1)';
+                    competenciesChart.options.scales.r.pointLabels.color = light ? '#333' : '#eee';
+                    competenciesChart.update();
+                }, 10);
+            });
+        }
+    }
+});
+
