@@ -216,16 +216,27 @@
         <section id="certification">
             <h2>Certification</h2>
             <div class="cert-interactive-container">
-                <!-- SVG layer for lines -->
-                <svg id="cert-line-svg" class="cert-line-svg">
-                    <path id="cert-connection-line" d="" class="cert-path hidden" />
-                </svg>
 
                 <div class="cert-wheel-wrapper">
+                    <!-- Equilateral triangle border via SVG -->
+                    <svg class="cert-tri-svg" viewBox="0 0 420 364" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <defs>
+                            <filter id="tri-glow">
+                                <feGaussianBlur stdDeviation="3" result="blur"/>
+                                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                            </filter>
+                        </defs>
+                        <!-- Filled glass triangle -->
+                        <polygon class="cert-tri-fill" points="210,6 4,358 416,358"/>
+                        <!-- Accent stroke border -->
+                        <polygon class="cert-tri-border" points="210,6 4,358 416,358" filter="url(#tri-glow)"/>
+                    </svg>
+                    <!-- Items container -->
                     <div class="cert-wheel" id="cert-wheel">
-                        <!-- JS will inject wheel items here -->
+                        <!-- JS will inject triangle items here -->
                     </div>
-                    <div class="cert-wheel-center">
+                    <!-- Center label (centroid of triangle) -->
+                    <div class="cert-tri-center">
                         <span id="cert-center-text">Select<br>Category</span>
                     </div>
                 </div>

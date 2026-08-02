@@ -220,12 +220,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Bulletproof fallbacks:
-        // 1. Fallback based on video duration metadata
+        // 1. Fallback based on actual remaining time (duration - currentTime) so it fires
+        //    at the true end of the video even if metadata loads mid-playback.
         splashVideo.addEventListener('loadedmetadata', () => {
-            setTimeout(handleVideoEnd, (splashVideo.duration * 1000) + 300);
+            const remaining = (splashVideo.duration - splashVideo.currentTime) * 1000;
+            setTimeout(() => {
+                if (!hasMigrated) handleVideoEnd();
+            }, remaining + 300);
         });
-        // 2. Hard fallback timer just in case video doesn't load metadata properly (e.g. 6 seconds)
-        setTimeout(handleVideoEnd, 6000);
+        // 2. Hard fallback timer only triggers if nothing else has fired (e.g. 12 seconds)
+        setTimeout(() => {
+            if (!hasMigrated) handleVideoEnd();
+        }, 12000);
     }
 
     // Allow user to click anywhere on the splash screen to skip it
@@ -304,7 +310,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 labels: ['C Programming', 'Java', 'VS Code', 'Git/GitHub', 'Problem Solving', 'Leadership'],
                 datasets: [{
                     label: 'Proficiency',
-                    data: [90, 85, 95, 80, 95, 85],
+                    // All values in 85-90% band; suggestedMax:92 pushes them to the outer edge
+                    data: [90, 86, 88, 85, 90, 87],
                     backgroundColor: 'rgba(212, 175, 55, 0.2)',
                     borderColor: 'rgba(212, 175, 55, 1)',
                     pointBackgroundColor: 'rgba(212, 175, 55, 1)',
@@ -312,6 +319,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     pointHoverBackgroundColor: '#fff',
                     pointHoverBorderColor: 'rgba(212, 175, 55, 1)',
                     borderWidth: 2,
+                    pointRadius: 7,
+                    pointHoverRadius: 9,
+                    pointBorderWidth: 2,
                 }]
             },
             options: {
@@ -330,8 +340,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         },
                         ticks: {
                             display: false,
-                            min: 0,
-                            max: 100
+                            suggestedMin: 0,
+                            suggestedMax: 92,
+                            stepSize: 20
                         }
                     }
                 },
@@ -440,10 +451,24 @@ const certData = {
 const certWheel = document.getElementById('cert-wheel');
 const certContentArea = document.getElementById('cert-content-area');
 const certCenterText = document.getElementById('cert-center-text');
-const connectionLine = document.getElementById('cert-connection-line');
 const categories = Object.keys(certData);
-const radius = 130;
-let currentRotation = 0;
+
+// Fixed positions (% of container) for 8 items inside an equilateral triangle
+// Triangle vertices: top-center, bottom-left, bottom-right
+const trianglePositions = [
+    // Row 1 — apex (1 item)
+    { x: 50, y: 14 },  // Coursera
+    // Row 2 — upper band (2 items)
+    { x: 36, y: 35 },  // HackerRank
+    { x: 64, y: 35 },  // NPTEL
+    // Row 3 — mid band (3 items)
+    { x: 27, y: 57 },  // Presentation
+    { x: 50, y: 57 },  // School
+    { x: 73, y: 57 },  // TCS-iON
+    // Row 4 — lower band (2 items)
+    { x: 37, y: 79 },  // Tenzorx
+    { x: 63, y: 79 },  // Zekatix
+];
 
 function renderCertCards(items) {
     return items.map(item => `
@@ -455,23 +480,12 @@ function renderCertCards(items) {
 }
 
 function handleCategoryClick(index, cat) {
-    // Calculate rotation to bring the clicked item to the right edge (0 degrees)
-    const anglePerItem = 360 / categories.length;
-    const targetAngle = -(index * anglePerItem);
-    currentRotation = targetAngle;
-    certWheel.style.transform = `rotate(${currentRotation}deg)`;
+    // Highlight selected item, de-highlight others
+    certWheel.querySelectorAll('.cert-item').forEach(el => el.classList.remove('active'));
+    certWheel.querySelectorAll('.cert-item')[index].classList.add('active');
 
-    // Counter rotate labels
-    const labels = certWheel.querySelectorAll('.cert-label');
-    labels.forEach(label => {
-        label.style.transform = `rotate(${-currentRotation}deg)`;
-    });
-
-    // Update center
+    // Update center label
     certCenterText.innerHTML = cat;
-
-    // Draw line
-    drawLine();
 
     // Fade out old content
     certContentArea.classList.remove('visible');
@@ -515,41 +529,16 @@ function handleCategoryClick(index, cat) {
     }, 400); // Wait for wheel rotation and fade out
 }
 
-function drawLine() {
-    connectionLine.classList.remove('drawn');
-    setTimeout(() => {
-        const wheelRect = document.querySelector('.cert-wheel-wrapper').getBoundingClientRect();
-        const contentRect = certContentArea.getBoundingClientRect();
-        const svgRect = document.getElementById('cert-line-svg').getBoundingClientRect();
-
-        // Start from right edge of wheel
-        const startX = (wheelRect.right) - svgRect.left;
-        const startY = (wheelRect.top + wheelRect.height / 2) - svgRect.top;
-
-        // End at left edge of content area
-        const endX = contentRect.left - svgRect.left + 20;
-        const endY = (contentRect.top + 50) - svgRect.top;
-
-        // Create a nice bezier curve
-        const path = `M ${startX} ${startY} C ${startX + 50} ${startY}, ${endX - 50} ${endY}, ${endX} ${endY}`;
-        connectionLine.setAttribute('d', path);
-
-        // Animate
-        connectionLine.classList.add('drawn');
-    }, 500); // Draw line after wheel rotation
-}
-
-// Initialize wheel
+// Initialize triangle
 if (certWheel) {
     categories.forEach((cat, i) => {
-        const angle = (i * 360) / categories.length;
-        const radian = angle * (Math.PI / 180);
-        const x = Math.cos(radian) * radius;
-        const y = Math.sin(radian) * radius;
+        const pos = trianglePositions[i] || { x: 50, y: 50 };
 
         const item = document.createElement('div');
         item.classList.add('cert-item');
-        item.style.transform = `translate(${x}px, ${y}px)`;
+        // Position absolutely inside the triangle container
+        item.style.left = `${pos.x}%`;
+        item.style.top = `${pos.y}%`;
 
         const label = document.createElement('span');
         label.classList.add('cert-label');
@@ -559,13 +548,6 @@ if (certWheel) {
 
         item.addEventListener('click', () => handleCategoryClick(i, cat));
         certWheel.appendChild(item);
-    });
-
-    // Handle window resize to redraw line
-    window.addEventListener('resize', () => {
-        if (certContentArea.classList.contains('visible')) {
-            drawLine();
-        }
     });
 }
 
