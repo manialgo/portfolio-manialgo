@@ -39,11 +39,9 @@
                 <li><a href="#projects"><span class="nav-text">Projects</span></a></li>
                 <li><a href="#patents"><span class="nav-text">Patents</span></a></li>
                 <li><a href="#paper-presentation"><span class="nav-text">Paper Presentation</span></a></li>
-                <li><a href="#conference"><span class="nav-text">Conference Attend</span></a></li>
                 <li><a href="#achievements"><span class="nav-text">Key Achievements</span></a></li>
                 <li><a href="#academic"><span class="nav-text">Academic</span></a></li>
                 <li><a href="#social-handles"><span class="nav-text">Social-Handles</span></a></li>
-                <li><a href="#extra-curricular"><span class="nav-text">Extra-Curricular Activities</span></a></li>
             </ul>
         </nav>
     </aside>
@@ -217,7 +215,25 @@
 
         <section id="certification">
             <h2>Certification</h2>
-            <p>Professional certifications and continuous learning.</p>
+            <div class="cert-interactive-container">
+                <!-- SVG layer for lines -->
+                <svg id="cert-line-svg" class="cert-line-svg">
+                    <path id="cert-connection-line" d="" class="cert-path hidden" />
+                </svg>
+
+                <div class="cert-wheel-wrapper">
+                    <div class="cert-wheel" id="cert-wheel">
+                        <!-- JS will inject wheel items here -->
+                    </div>
+                    <div class="cert-wheel-center">
+                        <span id="cert-center-text">Select<br>Category</span>
+                    </div>
+                </div>
+
+                <div class="cert-content-area" id="cert-content-area">
+                    <!-- JS will inject sub-categories and cards here -->
+                </div>
+            </div>
         </section>
 
         <section id="projects">
@@ -300,27 +316,210 @@
 
         <section id="patents">
             <h2>Patents</h2>
-            <p>Innovations and patented methodologies.</p>
+            <div class="card-swap-container" id="patents-card-swap">
+
+                <div class="swap-card" data-index="0">
+                    <div class="card-header">
+                        <h3>IoT-Based Self-Sustained Autonomous System for Efficient Public Toilet Maintenance</h3>
+                        <span class="card-date">May 2025 &bull; Patent Published</span>
+                    </div>
+                    <h4 class="card-role">Application No: 202541043705 A</h4>
+                    <ul class="card-details">
+                        <li>Invented an innovative system for enhancing the functionality and efficiency of public
+                            toilets through the integration of Internet of Things (IoT) technologies.</li>
+                        <li>Incorporates automated monitoring of critical parameters and an automated disinfectant
+                            dispensing mechanism to optimize maintenance and elevate hygiene standards.</li>
+                    </ul>
+                    <div class="exp-buttons">
+                        <a href="ref/patents/IOT-BASED%20SELF-SUSTAINED%20AUTONOMOUS%20SYSTEM%20FOR%20EFFICIENT%20PUBLIC%20TOILET%20MAINTENANCE.pdf"
+                            class="social-icon" target="_blank">View Patent</a>
+                    </div>
+                </div>
+
+                <div class="swap-card" data-index="1">
+                    <div class="card-header">
+                        <h3>Surveillance of Robotic Boat Using IoT and Image Processing</h3>
+                        <span class="card-date">Sep 2025 &bull; Patent Published</span>
+                    </div>
+                    <h4 class="card-role">Application No: 202541079221 A</h4>
+                    <ul class="card-details">
+                        <li>Proposed a method to protect fishermen by logging their entries and exits in the harbor
+                            using an embedded system, notifying the country's sea border via GPS and IoT.</li>
+                        <li>Integrated image processing technology to detect sharks and automatically control the boat's
+                            direction to safely return it to the safe zone.</li>
+                    </ul>
+                    <div class="exp-buttons">
+                        <a href="ref/patents/SURVEILLANCE-OF-ROBOTIC-BOAT-USING-IOT-AND-IMAGE-PROCESSING.pdf"
+                            class="social-icon" target="_blank">View Patent</a>
+                    </div>
+                </div>
+
+            </div>
         </section>
 
         <section id="paper-presentation">
             <h2>Paper Presentation</h2>
-            <p>Research papers and technical presentations.</p>
+            <div class="card-swap-container" id="paper-presentation-card-swap">
+
+                <div class="swap-card" data-index="0">
+                    <div class="card-header">
+                        <h3>CTK Paper Presentation</h3>
+                        <span class="card-date">Coimbatore, Tamil Nadu</span>
+                    </div>
+                    <h4 class="card-role">Technical Paper Presentation &mdash; Inter-College</h4>
+                    <ul class="card-details">
+                        <li>Presented a technical paper at the CTK inter-college symposium, demonstrating research-level
+                            understanding of the chosen domain.</li>
+                        <li>Competed against peer researchers and received a participation certificate acknowledging
+                            academic contribution.</li>
+                    </ul>
+                    <div class="exp-buttons">
+                        <a href="ref/certificates/presentation/presentaion-ctk-manikandan-m.pdf" target="_blank"
+                            class="social-icon">View Certificate</a>
+                    </div>
+                </div>
+
+                <div class="swap-card" data-index="1">
+                    <div class="card-header">
+                        <h3>JSR Paper Presentation</h3>
+                        <span class="card-date">Coimbatore, Tamil Nadu</span>
+                    </div>
+                    <h4 class="card-role">Technical Paper Presentation &mdash; Inter-College</h4>
+                    <ul class="card-details">
+                        <li>Participated in the JSR institution's inter-college paper presentation event, delivering a
+                            structured technical research paper.</li>
+                        <li>Demonstrated effective research communication and academic presentation skills before a
+                            panel of faculty evaluators.</li>
+                    </ul>
+                    <div class="exp-buttons">
+                        <a href="ref/certificates/presentation/presentaion-jsr-manikandan-m.jpg" target="_blank"
+                            class="social-icon">View Certificate</a>
+                    </div>
+                </div>
+
+                <div class="swap-card" data-index="2">
+                    <div class="card-header">
+                        <h3>KPR Paper Presentation</h3>
+                        <span class="card-date">Coimbatore, Tamil Nadu</span>
+                    </div>
+                    <h4 class="card-role">Technical Paper Presentation &mdash; Inter-College</h4>
+                    <ul class="card-details">
+                        <li>Presented research at KPR Institute's technical symposium, engaging with experts and gaining
+                            exposure to cutting-edge academic discourse.</li>
+                        <li>Showcased the ability to formulate and defend research arguments in a competitive
+                            inter-college academic environment.</li>
+                    </ul>
+                    <div class="exp-buttons">
+                        <a href="ref/certificates/presentation/presentaion-kpr-manikandan-m.jpg" target="_blank"
+                            class="social-icon">View Certificate</a>
+                    </div>
+                </div>
+
+            </div>
         </section>
 
-        <section id="conference">
-            <h2>Conference Attend</h2>
-            <p>Conferences attended and knowledge exchange.</p>
-        </section>
 
         <section id="achievements">
             <h2>Key Achievements</h2>
-            <p>Notable milestones and recognition.</p>
+            <div class="card-swap-container" id="achievements-card-swap">
+
+                <div class="swap-card" data-index="0">
+                    <div class="card-header">
+                        <h3>Streak Maintenance</h3>
+                        <span class="card-date">Coding &amp; Social Platforms</span>
+                    </div>
+                    <h4 class="card-role">Consistent Competitive &amp; Open-Source Activity</h4>
+                    <ul class="card-details">
+                        <li><strong>CodeChef</strong> &mdash; 202-day Streak &amp; 500+ Problems solved across all
+                            difficulty levels.</li>
+                        <li><strong>HackerRank</strong> &mdash; 4&#9733; rating in C, Java, and SQL domains.</li>
+                        <li><strong>LeetCode</strong> &mdash; 200+ Problems solved across data structures and
+                            algorithms.</li>
+                        <li><strong>LinkedIn Games</strong> &mdash; 420+ day Streak maintained consistently.</li>
+                        <li><strong>GitHub</strong> &mdash; 3 solution repos (Java-Problem-Solution) &amp; 2 project
+                            repos (ergotrack, dynamic-weighing-system).</li>
+                    </ul>
+                </div>
+
+                <div class="swap-card" data-index="1">
+                    <div class="card-header">
+                        <h3>Symposium: FUTURONIX '26</h3>
+                        <span class="card-date">Feb 2026 &bull; V.S.B. College of Engineering</span>
+                    </div>
+                    <h4 class="card-role">Overall Event Coordinator &mdash; ECE Department</h4>
+                    <ul class="card-details">
+                        <li>Led full-scale event coordination for FUTURONIX '26, managing Finance, Registration Desk,
+                            and People Management teams end-to-end.</li>
+                        <li>Demonstrated leadership by overseeing crowd and schedule management across multiple event
+                            tracks simultaneously.</li>
+                        <li>Handled departmental finance operations and ensured smooth budget execution throughout the
+                            symposium.</li>
+                    </ul>
+                </div>
+
+            </div>
         </section>
 
         <section id="academic">
             <h2>Academic</h2>
-            <p>Educational background and academic excellence.</p>
+            <div class="academic-timeline">
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-year-badge">2023 &ndash; 2027</div>
+                    </div>
+                    <div class="timeline-card">
+                        <div class="timeline-card-inner">
+                            <div class="timeline-degree">B.E. Electronics &amp; Communication Engineering</div>
+                            <div class="timeline-institute">V.S.B. College of Engineering Technical Campus</div>
+                            <div class="timeline-location">Coimbatore, Tamil Nadu</div>
+                            <div class="timeline-grade-row">
+                                <span class="timeline-grade-label">CGPA</span>
+                                <span class="timeline-grade-value">8.6 <span class="timeline-grade-note">(VI
+                                        Sem)</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-year-badge">2021 &ndash; 2022</div>
+                    </div>
+                    <div class="timeline-card">
+                        <div class="timeline-card-inner">
+                            <div class="timeline-degree">Higher Secondary Certificate (H.S.C)</div>
+                            <div class="timeline-institute">Govt. Higher Secondary School, K.K. Nagar</div>
+                            <div class="timeline-location">Salem, Tamil Nadu</div>
+                            <div class="timeline-grade-row">
+                                <span class="timeline-grade-label">Percentage</span>
+                                <span class="timeline-grade-value">81.17%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-year-badge">2019 &ndash; 2020</div>
+                    </div>
+                    <div class="timeline-card">
+                        <div class="timeline-card-inner">
+                            <div class="timeline-degree">Secondary School Certificate (S.S.C)</div>
+                            <div class="timeline-institute">Govt. Higher Secondary School, K.K. Nagar</div>
+                            <div class="timeline-location">Salem, Tamil Nadu</div>
+                            <div class="timeline-grade-row">
+                                <span class="timeline-grade-label">Percentage</span>
+                                <span class="timeline-grade-value">92.20%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </section>
 
         <section id="social-handles">
@@ -382,18 +581,11 @@
                     <h3>WhatsApp</h3>
                     <p class="handle">mani_algo</p>
                 </a>
-                <a href="mailto:manimmaths@gmail.com" target="_blank" class="profile-card"
-                    data-search="email mail contact manimmaths">
-                    <h3>Email</h3>
-                    <p class="handle">manimmaths</p>
-                </a>
+
             </div>
         </section>
 
-        <section id="extra-curricular">
-            <h2>Extra-Curricular Activities</h2>
-            <p>Beyond engineering and mathematics.</p>
-        </section>
+
     </main>
 
     <script src="script.js"></script>

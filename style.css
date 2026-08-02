@@ -442,7 +442,8 @@ section {
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: background 1s ease-in-out;
+    opacity: 1;
+    transition: background 0.8s ease-in-out, opacity 0.8s ease-in-out;
 }
 
 .splash-content {
@@ -469,16 +470,19 @@ section {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    transition: opacity 0.4s ease;
 }
 
 /* Migration State */
 #splash-screen.migrating {
     background: transparent;
+    opacity: 0;
     pointer-events: none;
 }
 
 #splash-screen.migrating #splash-bird {
-    transition: all 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    opacity: 1 !important;
+    transition: transform 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.4s ease;
 }
 
 /* Sidebar Logo Image */
@@ -941,3 +945,436 @@ body.light-theme .stack-card {
         top: 0;
     }
 }
+
+/* =========================================
+   CERTIFICATION INTERACTIVE WHEEL
+========================================= */
+
+.cert-interactive-container {
+    position: relative;
+    width: 100%;
+    min-height: 600px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 40px;
+    margin-top: 40px;
+}
+
+.cert-wheel-wrapper {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    margin-left: 20px;
+    flex-shrink: 0;
+}
+
+.cert-wheel {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center center;
+}
+
+.cert-wheel-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    transform: translate(-50%, -50%);
+    background: var(--glass-bg);
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    z-index: 10;
+    font-size: 0.9rem;
+    font-family: 'Overpass Mono', monospace;
+    color: var(--text-color);
+    box-shadow: 0 0 15px rgba(139, 0, 0, 0.25);
+    transition: background 0.4s, color 0.4s, border-color 0.4s;
+}
+
+.cert-item {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80px;
+    height: 80px;
+    margin-top: -40px;
+    margin-left: -40px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 5;
+    font-size: 0.75rem;
+    font-family: 'Atkinson Hyperlegible Mono', monospace;
+    color: var(--text-color);
+    padding: 10px;
+    word-break: break-word;
+    backdrop-filter: blur(8px);
+}
+
+.cert-item:hover, .cert-item.active {
+    background: var(--accent);
+    color: #fff;
+    transform: scale(1.1);
+    border-color: var(--accent);
+    box-shadow: 0 0 15px rgba(139, 0, 0, 0.5);
+}
+
+.cert-item .cert-label {
+    /* counter-rotate the label so it stays upright */
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cert-content-area {
+    position: relative;
+    flex-grow: 1;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    z-index: 2;
+    padding: 20px;
+}
+
+.cert-content-area.visible {
+    opacity: 1;
+}
+
+.cert-sub-folder-grid {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.cert-sub-btn {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--text-color);
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: 'Atkinson Hyperlegible Mono', monospace;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+}
+
+.cert-sub-btn:hover, .cert-sub-btn.active {
+    background: var(--accent);
+    color: #fff;
+}
+
+.cert-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.cert-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    color: var(--text-color);
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    font-family: 'Atkinson Hyperlegible Mono', monospace;
+    transition: transform 0.3s ease, border-color 0.3s, background 0.4s;
+    backdrop-filter: blur(8px);
+}
+
+.cert-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent);
+    box-shadow: 0 5px 15px rgba(139, 0, 0, 0.2);
+}
+
+.cert-card h4 {
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    font-family: 'Overpass Mono', monospace;
+    color: var(--accent);
+}
+
+.cert-card .social-icon {
+    margin-top: auto;
+    font-size: 0.8rem;
+    padding: 5px 10px;
+}
+
+/* SVG Line Animation */
+.cert-line-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.cert-path {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 2;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    transition: stroke-dashoffset 0.8s ease-in-out, stroke 0.4s;
+}
+
+.cert-path.hidden {
+    stroke-dashoffset: 1000;
+}
+
+.cert-path.drawn {
+    stroke-dashoffset: 0;
+}
+
+@media (max-width: 768px) {
+    .cert-interactive-container {
+        flex-direction: column;
+    }
+    .cert-wheel-wrapper {
+        margin: 0 auto;
+    }
+    .cert-content-area {
+        width: 100%;
+    }
+}
+
+/* =========================================
+   ACADEMIC TIMELINE
+========================================= */
+
+.academic-timeline {
+    position: relative;
+    margin-top: 40px;
+    padding-left: 20px;
+}
+
+/* The continuous vertical accent line */
+.academic-timeline::before {
+    content: '';
+    position: absolute;
+    left: 75px;
+    top: 10px;
+    bottom: 10px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    opacity: 0.5;
+}
+
+.timeline-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+    margin-bottom: 50px;
+    position: relative;
+}
+
+.timeline-item:last-child {
+    margin-bottom: 0;
+}
+
+/* Left marker column: dot + year badge */
+.timeline-marker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    width: 120px;
+    position: relative;
+    z-index: 2;
+}
+
+.timeline-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 3px solid var(--bg-color);
+    box-shadow: 0 0 12px rgba(139, 0, 0, 0.7), 0 0 24px rgba(139, 0, 0, 0.3);
+    margin-left: 24px;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    flex-shrink: 0;
+}
+
+.timeline-item:hover .timeline-dot {
+    box-shadow: 0 0 20px rgba(139, 0, 0, 1), 0 0 40px rgba(139, 0, 0, 0.5);
+    transform: scale(1.25);
+}
+
+.timeline-year-badge {
+    font-family: 'Overpass Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent);
+    background: rgba(139, 0, 0, 0.1);
+    border: 1px solid rgba(139, 0, 0, 0.3);
+    border-radius: 20px;
+    padding: 4px 10px;
+    white-space: nowrap;
+    text-align: center;
+    letter-spacing: 0.5px;
+    transition: background 0.3s, border-color 0.3s;
+}
+
+.timeline-item:hover .timeline-year-badge {
+    background: rgba(139, 0, 0, 0.2);
+    border-color: var(--accent);
+}
+
+/* The card on the right */
+.timeline-card {
+    flex: 1;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    backdrop-filter: blur(14px);
+    overflow: hidden;
+    transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+                border-color 0.3s,
+                box-shadow 0.35s;
+    position: relative;
+}
+
+.timeline-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--accent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 3px 0 0 3px;
+}
+
+.timeline-item:hover .timeline-card {
+    transform: translateX(8px);
+    border-color: var(--accent);
+    box-shadow: 0 8px 30px rgba(139, 0, 0, 0.2);
+}
+
+.timeline-item:hover .timeline-card::before {
+    opacity: 1;
+}
+
+.timeline-card-inner {
+    padding: 22px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.timeline-degree {
+    font-family: 'Overpass Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-color);
+    line-height: 1.4;
+}
+
+.timeline-institute {
+    font-family: 'Atkinson Hyperlegible Mono', monospace;
+    font-size: 0.95rem;
+    color: var(--accent);
+    margin-top: 2px;
+}
+
+.timeline-location {
+    font-family: 'Atkinson Hyperlegible Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--text-color);
+    opacity: 0.6;
+    margin-bottom: 8px;
+}
+
+.timeline-grade-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+    padding-top: 12px;
+    border-top: 1px solid var(--glass-border);
+}
+
+.timeline-grade-label {
+    font-family: 'Overpass Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-color);
+    opacity: 0.5;
+}
+
+.timeline-grade-value {
+    font-family: 'Overpass Mono', monospace;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.5px;
+}
+
+.timeline-grade-note {
+    font-size: 0.8rem;
+    font-weight: 400;
+    opacity: 0.7;
+    margin-left: 4px;
+}
+
+/* Light theme adjustments */
+body.light-theme .timeline-card {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+body.light-theme .timeline-item:hover .timeline-card {
+    box-shadow: 0 8px 30px rgba(139, 0, 0, 0.12);
+}
+
+@media (max-width: 768px) {
+    .academic-timeline {
+        padding-left: 0;
+    }
+
+    .academic-timeline::before {
+        left: 50px;
+    }
+
+    .timeline-marker {
+        width: 80px;
+    }
+
+    .timeline-year-badge {
+        font-size: 0.65rem;
+        padding: 3px 7px;
+    }
+
+    .timeline-degree {
+        font-size: 0.95rem;
+    }
+}

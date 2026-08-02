@@ -2,16 +2,16 @@
 const themeToggle = document.getElementById('theme-toggle');
 themeToggle.addEventListener('change', () => {
     document.body.classList.toggle('light-theme');
-    
+
     const sidebarLogoImg = document.getElementById('sidebar-logo-img');
     const splashBird = document.getElementById('splash-bird');
-    
+
     if (document.body.classList.contains('light-theme')) {
-        if(sidebarLogoImg) sidebarLogoImg.src = 'ref/portfolio-logo-light.png';
-        if(splashBird) splashBird.src = 'ref/portfolio-logo-light.png';
+        if (sidebarLogoImg) sidebarLogoImg.src = 'ref/portfolio-logo-light.png';
+        if (splashBird) splashBird.src = 'ref/portfolio-logo-light.png';
     } else {
-        if(sidebarLogoImg) sidebarLogoImg.src = 'ref/portfolio-logo-dark.png';
-        if(splashBird) splashBird.src = 'ref/portfolio-logo-dark.png';
+        if (sidebarLogoImg) sidebarLogoImg.src = 'ref/portfolio-logo-dark.png';
+        if (splashBird) splashBird.src = 'ref/portfolio-logo-dark.png';
     }
 });
 
@@ -144,17 +144,26 @@ if (filterInput) {
 }
 
 // --- 6. SPLASH SCREEN & MIGRATION ---
-window.addEventListener('load', () => {
+document.addEventListener('DOMContentLoaded', () => {
     const splashScreen = document.getElementById('splash-screen');
     const splashVideo = document.getElementById('splash-video');
     const splashBird = document.getElementById('splash-bird');
     const sidebarLogoImg = document.getElementById('sidebar-logo-img');
     const introDp = document.getElementById('intro-dp');
 
-    if (!splashVideo) return;
+    if (!splashVideo) {
+        if (sidebarLogoImg) sidebarLogoImg.classList.add('visible');
+        if (introDp) introDp.classList.add('visible');
+        const introCard = document.getElementById('intro-profile-card');
+        if (introCard) introCard.classList.add('visible');
+        return;
+    }
 
-    // Handle video end
-    splashVideo.addEventListener('ended', () => {
+    let hasMigrated = false;
+    const handleVideoEnd = () => {
+        if (hasMigrated) return;
+        hasMigrated = true;
+
         // Crossfade video to PNG (so it acts as a seamless handover)
         splashVideo.style.opacity = '0';
         splashBird.style.opacity = '1';
@@ -171,36 +180,59 @@ window.addEventListener('load', () => {
             const targetCenterX = targetRect.left + targetRect.width / 2;
             const targetCenterY = targetRect.top + targetRect.height / 2;
 
+            // Safe fallback if target width is 0
+            const scale = (targetRect.width && birdRect.width) ? (targetRect.width / birdRect.width) : 1;
             const deltaX = targetCenterX - birdCenterX;
             const deltaY = targetCenterY - birdCenterY;
-            const scale = targetRect.width / birdRect.width;
 
-            // Start migration
+            // Start migration — CSS will fade out the entire splash screen
             splashScreen.classList.add('migrating');
-            
+
             // Move the splash bird to the sidebar position by appending the delta to its existing translate(-50%, -50%)
             splashBird.style.transform = `translate(calc(-50% + ${deltaX}px), calc(-50% + ${deltaY}px)) scale(${scale})`;
-            
+
             // Fade in DP and profile card
             introDp.classList.add('visible');
             const introCard = document.getElementById('intro-profile-card');
             if (introCard) introCard.classList.add('visible');
 
-            // After migration finishes (1.5s transition), hide splash and show actual sidebar logo
+            // Show the sidebar logo immediately
+            sidebarLogoImg.classList.add('visible');
+
+            // After the CSS opacity fade-out finishes (0.8s), fully remove the splash screen from DOM flow
             setTimeout(() => {
                 splashScreen.style.display = 'none';
-                sidebarLogoImg.classList.add('visible');
-            }, 1500); // 1.5s transition
+            }, 900);
 
         }, 300); // Small delay to let opacity transition finish
-    });
+    };
+
+    // Handle video end
+    if (splashVideo.ended) {
+        handleVideoEnd();
+    } else {
+        splashVideo.addEventListener('ended', handleVideoEnd);
+        // Fallback for browsers/devices where the 'ended' event doesn't fire reliably
+        splashVideo.addEventListener('timeupdate', () => {
+            if (splashVideo.duration && splashVideo.currentTime >= splashVideo.duration - 0.1) {
+                handleVideoEnd();
+            }
+        });
+
+        // Bulletproof fallbacks:
+        // 1. Fallback based on video duration metadata
+        splashVideo.addEventListener('loadedmetadata', () => {
+            setTimeout(handleVideoEnd, (splashVideo.duration * 1000) + 300);
+        });
+        // 2. Hard fallback timer just in case video doesn't load metadata properly (e.g. 6 seconds)
+        setTimeout(handleVideoEnd, 6000);
+    }
+
+    // Allow user to click anywhere on the splash screen to skip it
+    splashScreen.addEventListener('click', handleVideoEnd);
 
     // Fallback if video fails to play/load
-    splashVideo.addEventListener('error', () => {
-        splashScreen.style.display = 'none';
-        sidebarLogoImg.classList.add('visible');
-        introDp.classList.add('visible');
-    });
+    splashVideo.addEventListener('error', handleVideoEnd);
 });
 
 // --- 7. CARD SWAP LOGIC (FOR EXPERIENCE & PROJECTS) ---
@@ -208,12 +240,12 @@ const swapContainers = document.querySelectorAll('.card-swap-container');
 
 swapContainers.forEach(container => {
     const swapCards = Array.from(container.querySelectorAll('.swap-card'));
-    
+
     swapCards.forEach((card, index) => {
         if (index === 0) card.classList.add('front');
         else if (index === 1) card.classList.add('middle');
         else card.classList.add('back');
-        
+
         card.addEventListener('click', () => {
             if (card.classList.contains('front')) {
                 cycleDeck(container, swapCards);
@@ -239,14 +271,14 @@ function bringToFront(container, clickedCard) {
 
 function cycleDeck(container, cards) {
     let frontIdx = cards.findIndex(c => c.classList.contains('front'));
-    
+
     cards.forEach(c => {
         c.classList.remove('front', 'middle', 'back');
     });
-    
+
     const nextFrontIdx = (frontIdx + 1) % cards.length;
     const nextMiddleIdx = (frontIdx + 2) % cards.length;
-    
+
     cards.forEach((c, idx) => {
         if (idx === nextFrontIdx) {
             c.classList.add('front');
@@ -265,7 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const isLight = document.body.classList.contains('light-theme');
         const gridColor = isLight ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.1)';
         const pointLabelColor = isLight ? '#333' : '#eee';
-        
+
         const competenciesChart = new Chart(ctx, {
             type: 'radar',
             data: {
@@ -330,4 +362,210 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 });
+
+// --- 9. CERTIFICATION OPTION WHEEL ---
+const certData = {
+    "Coursera": {
+        items: [
+            { name: "Excel Basics", path: "ref/certificates/coursera/excel.pdf" }
+        ]
+    },
+    "HackerRank": {
+        items: [
+            { name: "Java Basic", path: "ref/certificates/hackerrank/java_basic-certificate.pdf" },
+            { name: "SQL Basic", path: "ref/certificates/hackerrank/sql_basic-certificate.pdf" }
+        ]
+    },
+    "NPTEL": {
+        subfolders: {
+            "Jan-Apr 2025": [
+                { name: "Marklist", path: "ref/certificates/nptel/Jan-Apr-2025/Jan-Apr-2025-Marklist.pdf" },
+                { name: "Principles of Signals and Systems", path: "ref/certificates/nptel/Jan-Apr-2025/Principles-of-Signals-and-Systems.pdf" }
+            ],
+            "Jan-Apr 2026": [
+                { name: "Intro to Embedded System Design", path: "ref/certificates/nptel/Jan-Apr-2026/Introduction-to-Embedded-System-Design.pdf" },
+                { name: "Marklist", path: "ref/certificates/nptel/Jan-Apr-2026/Jan-Apr-2026-Marklist.pdf" },
+                { name: "Literature and Life", path: "ref/certificates/nptel/Jan-Apr-2026/Literature-and-Life.pdf" },
+                { name: "Problem Solving in C", path: "ref/certificates/nptel/Jan-Apr-2026/Problem-Solving-Through-In-C.pdf" }
+            ],
+            "Jan-Feb 2025": [
+                { name: "Fundamental Algorithms", path: "ref/certificates/nptel/Jan-Feb-2025/Fundamental-Algorithms-Design-and-Analysis.pdf" },
+                { name: "Marklist", path: "ref/certificates/nptel/Jan-Feb-2025/Jan-Feb-2025-Marklist.pdf" }
+            ],
+            "Jul-Oct 2025": [
+                { name: "Basic Electrical Circuits", path: "ref/certificates/nptel/Jul-Oct-2025/Basic-Electrical-Circuits.pdf" },
+                { name: "Marklist", path: "ref/certificates/nptel/Jul-Oct-2025/Jul-Oct-2025-Marklist.pdf" },
+                { name: "Problem Solving in C", path: "ref/certificates/nptel/Jul-Oct-2025/Problem-Solving-through-Programming-in-C.pdf" }
+            ],
+            "July-Oct 2024": [
+                { name: "Analog Communication", path: "ref/certificates/nptel/July-Oct-2024/Analog Communication.pdf" },
+                { name: "Marklist", path: "ref/certificates/nptel/July-Oct-2024/July-Oct-2024-Marklist.pdf" }
+            ]
+        }
+    },
+    "Presentation": {
+        items: [
+            { name: "Presentation CTK", path: "ref/certificates/presentation/presentaion-ctk-manikandan-m.pdf" },
+            { name: "Presentation JSR", path: "ref/certificates/presentation/presentaion-jsr-manikandan-m.jpg" },
+            { name: "Presentation KPR", path: "ref/certificates/presentation/presentaion-kpr-manikandan-m.jpg" }
+        ]
+    },
+    "School": {
+        items: [
+            { name: "Aryabhatta", path: "ref/certificates/school/Aryabhatta.jpg" },
+            { name: "Chess", path: "ref/certificates/school/Chess.jpg" },
+            { name: "Kho-Kho", path: "ref/certificates/school/Kho-Kho.jpg" },
+            { name: "Speech", path: "ref/certificates/school/Speech.jpg" }
+        ]
+    },
+    "TCS-iON": {
+        subfolders: {
+            "Career Edge": [{ name: "Young Professional", path: "ref/certificates/TCS-iON/Career-Edge-Young-Professional/MANIKANDAN_M_4706769.jpg" }],
+            "Soft Skills": [{ name: "Intro to Soft Skills", path: "ref/certificates/TCS-iON/Introduction-to-Soft-Skills/MANIKANDAN_M_4874057.pdf" }],
+            "Presentation": [{ name: "Presentation Skills", path: "ref/certificates/TCS-iON/Presentation-Skills/MANIKANDAN_M_4815899.pdf" }]
+        }
+    },
+    "Tenzorx": {
+        items: [
+            { name: "Tenzorx", path: "ref/certificates/Tenzorx/Tenzorx-17612.jpg" }
+        ]
+    },
+    "Zekatix": {
+        items: [
+            { name: "Zekatix", path: "ref/certificates/Zekatix/1709996188666-certificate.png" }
+        ]
+    }
+};
+
+const certWheel = document.getElementById('cert-wheel');
+const certContentArea = document.getElementById('cert-content-area');
+const certCenterText = document.getElementById('cert-center-text');
+const connectionLine = document.getElementById('cert-connection-line');
+const categories = Object.keys(certData);
+const radius = 130;
+let currentRotation = 0;
+
+function renderCertCards(items) {
+    return items.map(item => `
+        <div class="cert-card">
+            <h4>${item.name}</h4>
+            <a href="${item.path}" target="_blank" class="social-icon">View Certificate</a>
+        </div>
+    `).join('');
+}
+
+function handleCategoryClick(index, cat) {
+    // Calculate rotation to bring the clicked item to the right edge (0 degrees)
+    const anglePerItem = 360 / categories.length;
+    const targetAngle = -(index * anglePerItem);
+    currentRotation = targetAngle;
+    certWheel.style.transform = `rotate(${currentRotation}deg)`;
+
+    // Counter rotate labels
+    const labels = certWheel.querySelectorAll('.cert-label');
+    labels.forEach(label => {
+        label.style.transform = `rotate(${-currentRotation}deg)`;
+    });
+
+    // Update center
+    certCenterText.innerHTML = cat;
+
+    // Draw line
+    drawLine();
+
+    // Fade out old content
+    certContentArea.classList.remove('visible');
+
+    setTimeout(() => {
+        const data = certData[cat];
+        let contentHTML = '';
+
+        if (data.subfolders) {
+            const subfolderNames = Object.keys(data.subfolders);
+            contentHTML += `<div class="cert-sub-folder-grid">`;
+            subfolderNames.forEach((sf, i) => {
+                contentHTML += `<button class="cert-sub-btn ${i === 0 ? 'active' : ''}" data-sub="${sf}">${sf}</button>`;
+            });
+            contentHTML += `</div>`;
+
+            contentHTML += `<div class="cert-cards-grid" id="cert-cards-container">`;
+            contentHTML += renderCertCards(data.subfolders[subfolderNames[0]]);
+            contentHTML += `</div>`;
+        } else if (data.items) {
+            contentHTML += `<div class="cert-cards-grid">`;
+            contentHTML += renderCertCards(data.items);
+            contentHTML += `</div>`;
+        }
+
+        certContentArea.innerHTML = contentHTML;
+        certContentArea.classList.add('visible');
+
+        // Add listeners to subfolder buttons
+        if (data.subfolders) {
+            const buttons = certContentArea.querySelectorAll('.cert-sub-btn');
+            const cardsContainer = certContentArea.querySelector('#cert-cards-container');
+            buttons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    buttons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    cardsContainer.innerHTML = renderCertCards(data.subfolders[btn.getAttribute('data-sub')]);
+                });
+            });
+        }
+    }, 400); // Wait for wheel rotation and fade out
+}
+
+function drawLine() {
+    connectionLine.classList.remove('drawn');
+    setTimeout(() => {
+        const wheelRect = document.querySelector('.cert-wheel-wrapper').getBoundingClientRect();
+        const contentRect = certContentArea.getBoundingClientRect();
+        const svgRect = document.getElementById('cert-line-svg').getBoundingClientRect();
+
+        // Start from right edge of wheel
+        const startX = (wheelRect.right) - svgRect.left;
+        const startY = (wheelRect.top + wheelRect.height / 2) - svgRect.top;
+
+        // End at left edge of content area
+        const endX = contentRect.left - svgRect.left + 20;
+        const endY = (contentRect.top + 50) - svgRect.top;
+
+        // Create a nice bezier curve
+        const path = `M ${startX} ${startY} C ${startX + 50} ${startY}, ${endX - 50} ${endY}, ${endX} ${endY}`;
+        connectionLine.setAttribute('d', path);
+
+        // Animate
+        connectionLine.classList.add('drawn');
+    }, 500); // Draw line after wheel rotation
+}
+
+// Initialize wheel
+if (certWheel) {
+    categories.forEach((cat, i) => {
+        const angle = (i * 360) / categories.length;
+        const radian = angle * (Math.PI / 180);
+        const x = Math.cos(radian) * radius;
+        const y = Math.sin(radian) * radius;
+
+        const item = document.createElement('div');
+        item.classList.add('cert-item');
+        item.style.transform = `translate(${x}px, ${y}px)`;
+
+        const label = document.createElement('span');
+        label.classList.add('cert-label');
+        label.textContent = cat;
+
+        item.appendChild(label);
+
+        item.addEventListener('click', () => handleCategoryClick(i, cat));
+        certWheel.appendChild(item);
+    });
+
+    // Handle window resize to redraw line
+    window.addEventListener('resize', () => {
+        if (certContentArea.classList.contains('visible')) {
+            drawLine();
+        }
+    });
+}
 
